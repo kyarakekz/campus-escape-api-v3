@@ -1,4 +1,4 @@
-# [Campus Escape] API
+# Campus Escape API
 
 Backend API for **[Campus Escape]**, a timed quiz race for the SorSU Bulan Campus library.
 CS 313 Software Engineering 1, A.Y. 2026-2027.
@@ -60,8 +60,7 @@ Base URL: `http://localhost:3001/api/v1`
 
 ## What "completed" means in my game
 
-[A participant—an individual player or a group—completes Campus Escape by choosing the correct final gate door and escaping before the session ends. Completed participants are ranked by final score, highest first; tied scores share a rank. Participants who do not escape are marked incomplete and receive no rank.
-"]
+A participant—an individual player or a group—completes Campus Escape by choosing the correct final gate door and escaping before the session ends. Completed participants are ranked by final score, highest first; tied scores share a rank. Participants who do not escape are marked incomplete and receive no rank.
 
 ## Tables
 

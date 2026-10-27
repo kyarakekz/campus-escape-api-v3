@@ -1,5 +1,5 @@
 {
-  "name": "campus-escape-api-v2",
+  "name": "campus-escape-api-v3",
   "version": "1.0.0",
   "description": "Campus Escape game for Software Engineering 1",
   "main": "src/server.js",
