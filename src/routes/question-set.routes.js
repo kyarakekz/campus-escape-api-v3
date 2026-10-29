@@ -28,7 +28,7 @@ router.get(
   controller.getQuestionSet
 );
 
-router.put(
+router.patch(
   '/:questionSetId',
   requireUser('host'),
   updateQuestionSetRules,
