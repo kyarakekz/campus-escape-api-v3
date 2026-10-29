@@ -1,0 +1,132 @@
+{
+  "info": {
+    "name": "Campus Escape - Question Sets",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Question Sets",
+      "item": [
+        {
+          "name": "List my question sets",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              }
+            ],
+            "url": "{{baseUrl}}/question-sets"
+          }
+        },
+        {
+          "name": "Create a question set",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.question_set && data.question_set.question_set_id) {",
+                  "  pm.collectionVariables.set('createdQuestionSetId', data.question_set.question_set_id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Postman Test Set\",\n  \"description\": \"Created from the Campus Escape Postman collection.\",\n  \"subject\": \"Software Engineering\",\n  \"grade_level\": \"College\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/question-sets"
+          }
+        },
+        {
+          "name": "Get the created question set",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              }
+            ],
+            "url": "{{baseUrl}}/question-sets/{{createdQuestionSetId}}"
+          }
+        },
+        {
+          "name": "Update the created question set",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Postman Test Set Updated\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/question-sets/{{createdQuestionSetId}}"
+          }
+        },
+        {
+          "name": "Delete the created question set",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              }
+            ],
+            "url": "{{baseUrl}}/question-sets/{{createdQuestionSetId}}"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001/api/v1"
+    },
+    {
+      "key": "hostSchoolId",
+      "value": "2099-3000"
+    },
+    {
+      "key": "createdQuestionSetId",
+      "value": ""
+    }
+  ]
+}
