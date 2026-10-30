@@ -23,8 +23,24 @@ const createQuestionSetRules = [
   optionalText('grade_level', 40),
 ];
 
+const hasUpdateFieldRule = param('questionSetId').custom((_, { req }) => {
+  const editableFields = ['title', 'description', 'subject', 'grade_level'];
+  const hasEditableField = editableFields.some((field) =>
+    Object.prototype.hasOwnProperty.call(req.body || {}, field)
+  );
+
+  if (!hasEditableField) {
+    throw new Error(
+      'Send at least one field: title, description, subject, or grade_level.'
+    );
+  }
+
+  return true;
+});
+
 const updateQuestionSetRules = [
   questionSetIdRule,
+  hasUpdateFieldRule,
   body('title')
     .optional()
     .trim()

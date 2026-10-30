@@ -8,7 +8,16 @@
       "name": "Question Sets",
       "item": [
         {
-          "name": "List my question sets",
+          "name": "List my question sets (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 200', function () { pm.response.to.have.status(200); });"]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -21,19 +30,25 @@
           }
         },
         {
-          "name": "Create a question set",
+          "name": "Create a question set (201)",
           "event": [
             {
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": [
-                  "const data = pm.response.json();",
-                  "if (data.question_set && data.question_set.question_set_id) {",
-                  "  pm.collectionVariables.set('createdQuestionSetId', data.question_set.question_set_id);",
-                  "}"
-                ]
-              }
+               "exec": [
+                    "pm.test('Returns 201', function () { pm.response.to.have.status(201); });",
+                    " const data = pm.response.json();",
+                    "pm.test('Response contains the created question set', function () {",
+                    "  pm.expect(data.question_set).to.be.an('object');",
+                    "  pm.expect(data.question_set.question_set_id).to.exist;",
+                    "  pm.expect(data.question_set.title).to.eql('Postman Test Set');",
+                    "});",
+                    "if (data.question_set && data.question_set.question_set_id) {",
+                    "  pm.collectionVariables.set('createdQuestionSetId', data.question_set.question_set_id);",
+                    "}"
+                    ]
+                }
             }
           ],
           "request": {
@@ -61,7 +76,125 @@
           }
         },
         {
-          "name": "Get the created question set",
+          "name": "Create with invalid title (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 400', function () { pm.response.to.have.status(400); });"]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"AB\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/question-sets"
+          }
+        },
+        {
+          "name": "Create with malformed JSON (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 400', function () { pm.response.to.have.status(400); });"]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"title\":",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/question-sets"
+          }
+        },
+        {
+          "name": "List without account header (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 401', function () { pm.response.to.have.status(401); });"]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/question-sets"
+          }
+        },
+        {
+          "name": "List as a player (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 403', function () { pm.response.to.have.status(403); });"]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{playerSchoolId}}"
+              }
+            ],
+            "url": "{{baseUrl}}/question-sets"
+          }
+        },
+        {
+          "name": "Get the created question set (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 200', function () { pm.response.to.have.status(200); });"]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -74,9 +207,62 @@
           }
         },
         {
-          "name": "Update the created question set",
+          "name": "Get a question set that does not exist (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 404', function () { pm.response.to.have.status(404); });"]
+              }
+            }
+          ],
           "request": {
-            "method": "PATCH",
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              }
+            ],
+            "url": "{{baseUrl}}/question-sets/999999999"
+          }
+        },
+        {
+          "name": "Get using a nonnumeric ID (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 400', function () { pm.response.to.have.status(400); });"]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              }
+            ],
+            "url": "{{baseUrl}}/question-sets/not-a-number"
+          }
+        },
+        {
+          "name": "Update the created question set (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 200', function () { pm.response.to.have.status(200); });"]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
             "header": [
               {
                 "key": "X-Demo-User",
@@ -100,7 +286,86 @@
           }
         },
         {
-          "name": "Delete the created question set",
+          "name": "Update with an empty body (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 400', function () { pm.response.to.have.status(400); });"]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/question-sets/{{createdQuestionSetId}}"
+          }
+        },
+        {
+          "name": "Update another host's question set (403)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 403', function () { pm.response.to.have.status(403); });"]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{otherHostSchoolId}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              } 
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Should Not Update\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/question-sets/1"
+          }
+        },
+        {
+          "name": "Delete the created question set (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 204', function () { pm.response.to.have.status(204); });"]
+              }
+            }
+          ],
           "request": {
             "method": "DELETE",
             "header": [
@@ -110,6 +375,28 @@
               }
             ],
             "url": "{{baseUrl}}/question-sets/{{createdQuestionSetId}}"
+          }
+        },
+        {
+          "name": "Delete a question set used by a session (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": ["pm.test('Returns 409', function () { pm.response.to.have.status(409); });"]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              }
+            ],
+            "url": "{{baseUrl}}/question-sets/1"
           }
         }
       ]
@@ -123,6 +410,14 @@
     {
       "key": "hostSchoolId",
       "value": "2099-3000"
+    },
+    {
+      "key": "playerSchoolId",
+      "value": "2099-3001"
+    },
+    {
+      "key": "otherHostSchoolId",
+      "value": "2099-3004"
     },
     {
       "key": "createdQuestionSetId",
