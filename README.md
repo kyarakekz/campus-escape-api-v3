@@ -20,8 +20,8 @@ This is my own build of my group's game concept. Every commit in this repository
 ## Setup
 
 ```
-git clone https://github.com/kyarakekz/campus-escape-api-v2.git
-cd campus-escape-api-v2
+git clone https://github.com/kyarakekz/campus-escape-api-v3.git
+cd campus-escape-api-v3
 npm install
 ```
 
