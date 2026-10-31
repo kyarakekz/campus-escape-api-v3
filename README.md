@@ -20,8 +20,8 @@ This is my own build of my group's game concept. Every commit in this repository
 ## Setup
 
 ```
-git clone https://github.com/kyarakekz/campus-escape-api-v2.git
-cd campus-escape-api-v2
+git clone https://github.com/kyarakekz/campus-escape-api-v3.git
+cd campus-escape-api-v3
 npm install
 ```
 
@@ -83,3 +83,17 @@ A participant—an individual player or a group—completes Campus Escape by cho
 | npm run db:check | Counts the rows in every table |
 | npm run db:reset | Empties the database, rebuilds every table and reloads the seed data |
 | npm run check | Runs the same automatic check that GitHub runs after every push |
+
+## Question Set Endpoints
+
+Base URL: `http://localhost:3001/api/v1`
+
+All endpoints require a host account. Send the host’s school ID in the `X-Demo-User` header.
+
+| Method | URL | Who can call it |
+|---|---|---|
+| GET | `/question-sets` | Host; lists their question sets |
+| POST | `/question-sets` | Host; creates a question set |
+| GET | `/question-sets/:questionSetId` | Host; gets one of their question sets |
+| PUT | `/question-sets/:questionSetId` | Host; updates one of their question sets |
+| DELETE | `/question-sets/:questionSetId` | Host; deletes one of their question sets |
