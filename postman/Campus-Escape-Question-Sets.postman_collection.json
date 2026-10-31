@@ -14,7 +14,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 200', function () { pm.response.to.have.status(200); });"]
+                "exec": [
+                  "pm.test('Returns 200', function () { pm.response.to.have.status(200); });"
+                ]
               }
             }
           ],
@@ -36,19 +38,19 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-               "exec": [
-                    "pm.test('Returns 201', function () { pm.response.to.have.status(201); });",
-                    " const data = pm.response.json();",
-                    "pm.test('Response contains the created question set', function () {",
-                    "  pm.expect(data.question_set).to.be.an('object');",
-                    "  pm.expect(data.question_set.question_set_id).to.exist;",
-                    "  pm.expect(data.question_set.title).to.eql('Postman Test Set');",
-                    "});",
-                    "if (data.question_set && data.question_set.question_set_id) {",
-                    "  pm.collectionVariables.set('createdQuestionSetId', data.question_set.question_set_id);",
-                    "}"
-                    ]
-                }
+                "exec": [
+                  "pm.test('Returns 201', function () { pm.response.to.have.status(201); });",
+                  "const data = pm.response.json();",
+                  "pm.test('Response contains the created question set', function () {",
+                  "  pm.expect(data.question_set).to.be.an('object');",
+                  "  pm.expect(data.question_set.question_set_id).to.exist;",
+                  "  pm.expect(data.question_set.title).to.eql('Postman Test Set');",
+                  "});",
+                  "if (data.question_set && data.question_set.question_set_id) {",
+                  "  pm.collectionVariables.set('createdQuestionSetId', data.question_set.question_set_id);",
+                  "}"
+                ]
+              }
             }
           ],
           "request": {
@@ -124,7 +126,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                 "pm.test('Returns 400', function () { pm.response.to.have.status(400); });"
+                  "pm.test('Returns 400', function () { pm.response.to.have.status(400); });"
                 ]
               }
             }
@@ -160,7 +162,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 401', function () { pm.response.to.have.status(401); });"]
+                "exec": [
+                  "pm.test('Returns 401', function () { pm.response.to.have.status(401); });"
+                ]
               }
             }
           ],
@@ -177,7 +181,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 403', function () { pm.response.to.have.status(403); });"]
+                "exec": [
+                  "pm.test('Returns 403', function () { pm.response.to.have.status(403); });"
+                ]
               }
             }
           ],
@@ -199,7 +205,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 200', function () { pm.response.to.have.status(200); });"]
+                "exec": [
+                  "pm.test('Returns 200', function () { pm.response.to.have.status(200); });"
+                ]
               }
             }
           ],
@@ -221,7 +229,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 404', function () { pm.response.to.have.status(404); });"]
+                "exec": [
+                  "pm.test('Returns 404', function () { pm.response.to.have.status(404); });"
+                ]
               }
             }
           ],
@@ -243,7 +253,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 400', function () { pm.response.to.have.status(400); });"]
+                "exec": [
+                  "pm.test('Returns 400', function () { pm.response.to.have.status(400); });"
+                ]
               }
             }
           ],
@@ -265,7 +277,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 200', function () { pm.response.to.have.status(200); });"]
+                "exec": [
+                  "pm.test('Returns 200', function () { pm.response.to.have.status(200); });"
+                ]
               }
             }
           ],
@@ -283,7 +297,44 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Postman Test Set Updated\"\n}",
+              "raw": "{\n  \"title\": \"Postman Test Set Updated\",\n  \"description\": \"Updated from the Campus Escape Postman collection.\",\n  \"subject\": \"Software Engineering\",\n  \"grade_level\": \"College\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/question-sets/{{createdQuestionSetId}}"
+          }
+        },
+        {
+          "name": "Update with title only (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Returns 400', function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "X-Demo-User",
+                "value": "{{hostSchoolId}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Partial Update\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -300,7 +351,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 400', function () { pm.response.to.have.status(400); });"]
+                "exec": [
+                  "pm.test('Returns 400', function () { pm.response.to.have.status(400); });"
+                ]
               }
             }
           ],
@@ -335,7 +388,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 403', function () { pm.response.to.have.status(403); });"]
+                "exec": [
+                  "pm.test('Returns 403', function () { pm.response.to.have.status(403); });"
+                ]
               }
             }
           ],
@@ -349,11 +404,11 @@
               {
                 "key": "Content-Type",
                 "value": "application/json"
-              } 
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Should Not Update\"\n}",
+              "raw": "{\n  \"title\": \"Should Not Update\",\n  \"description\": \"Ownership test\",\n  \"subject\": \"Software Engineering\",\n  \"grade_level\": \"College\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -370,7 +425,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 204', function () { pm.response.to.have.status(204); });"]
+                "exec": [
+                  "pm.test('Returns 204', function () { pm.response.to.have.status(204); });"
+                ]
               }
             }
           ],
@@ -392,7 +449,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 409', function () { pm.response.to.have.status(409); });"]
+                "exec": [
+                  "pm.test('Returns 409', function () { pm.response.to.have.status(409); });"
+                ]
               }
             }
           ],

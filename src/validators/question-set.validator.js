@@ -23,32 +23,35 @@ const createQuestionSetRules = [
   optionalText('grade_level', 40),
 ];
 
-const hasUpdateFieldRule = param('questionSetId').custom((_, { req }) => {
-  const editableFields = ['title', 'description', 'subject', 'grade_level'];
-  const hasEditableField = editableFields.some((field) =>
-    Object.prototype.hasOwnProperty.call(req.body || {}, field)
-  );
-
-  if (!hasEditableField) {
-    throw new Error(
-      'Send at least one field: title, description, subject, or grade_level.'
-    );
-  }
-
-  return true;
-});
+const requiredNullableText = (field, maxLength) =>
+  body(field)
+    .custom((value, { req }) =>
+      Object.prototype.hasOwnProperty.call(req.body || {}, field)
+    )
+    .withMessage(`${field} is required.`)
+    .bail()
+    .if((value) => value !== null)
+    .isString()
+    .withMessage(`${field} must be text.`)
+    .bail()
+    .isLength({ max: maxLength })
+    .withMessage(`${field} must be at most ${maxLength} characters.`);
 
 const updateQuestionSetRules = [
   questionSetIdRule,
-  hasUpdateFieldRule,
   body('title')
-    .optional()
+    .exists()
+    .withMessage('title is required.')
+    .bail()
+    .isString()
+    .withMessage('title must be text.')
+    .bail()
     .trim()
     .isLength({ min: 3, max: 80 })
     .withMessage('title must be between 3 and 80 characters.'),
-  optionalText('description', 500),
-  optionalText('subject', 120),
-  optionalText('grade_level', 40),
+  requiredNullableText('description', 500),
+  requiredNullableText('subject', 120),
+  requiredNullableText('grade_level', 40),
 ];
 
 module.exports = {
