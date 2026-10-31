@@ -6,8 +6,7 @@ const POSTGRES_CONSTRAINT_CODES = new Set([
   '23001', // restrict violation
   '23502', // not-null violation
   '23503', // foreign-key violation
-  '23505', // unique violation
-  '23514', // check violation
+  '23505', // unique violation 
 ]);
 
 function constraintOf(error) {

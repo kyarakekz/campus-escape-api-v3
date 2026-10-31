@@ -82,7 +82,13 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 400', function () { pm.response.to.have.status(400); });"]
+                "exec": [
+                  "pm.test('Returns 400', function () { pm.response.to.have.status(400); });",
+                  "pm.test('Error details identify the title field', function () {",
+                  "  const data = pm.response.json();",
+                  "  pm.expect(data.error.details.some(detail => detail.field === 'title')).to.be.true;",
+                  "});"
+                ]
               }
             }
           ],
@@ -117,7 +123,9 @@
               "listen": "test",
               "script": {
                 "type": "text/javascript",
-                "exec": ["pm.test('Returns 400', function () { pm.response.to.have.status(400); });"]
+                "exec": [
+                 "pm.test('Returns 400', function () { pm.response.to.have.status(400); });"
+                ]
               }
             }
           ],
