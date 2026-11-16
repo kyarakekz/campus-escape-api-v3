@@ -9,8 +9,15 @@ module.exports = (sequelize, DataTypes) =>
       full_name: { type: DataTypes.STRING(120), allowNull: false },
       email: { type: DataTypes.STRING(255), allowNull: false, unique: true },
       role: { type: DataTypes.STRING(20), allowNull: false, defaultValue: 'PLAYER' },
+      password_hash: { type: DataTypes.STRING(255), allowNull: false },
     },
-    { tableName: 'users', timestamps: true, createdAt: 'created_at', updatedAt: false }
+    {
+      tableName: 'users',
+      timestamps: true,
+      createdAt: 'created_at',
+      updatedAt: false,
+      // The hash stays hidden except when the login query asks for it.
+      defaultScope: { attributes: { exclude: ['password_hash'] } },
+      scopes: { withPassword: { attributes: { include: ['password_hash'] } } },
+    }
   );
-
-  
