@@ -10,11 +10,11 @@ const {
 
 const router = Router();
 
-router.get('/', requireUser('host'), controller.listQuestionSets);
+router.get('/', requireUser('HOST'), controller.listQuestionSets);
 
 router.post(
   '/',
-  requireUser('host'),
+  requireUser('HOST'),
   createQuestionSetRules,
   validate,
   controller.createQuestionSet
@@ -22,7 +22,7 @@ router.post(
 
 router.get(
   '/:questionSetId',
-  requireUser('host'),
+ requireUser('HOST'),
   questionSetIdRule,
   validate,
   controller.getQuestionSet
@@ -30,7 +30,7 @@ router.get(
 
 router.put(
   '/:questionSetId',
-  requireUser('host'),
+  requireUser('HOST'),
   updateQuestionSetRules,
   validate,
   controller.updateQuestionSet
@@ -38,7 +38,7 @@ router.put(
 
 router.delete(
   '/:questionSetId',
-  requireUser('host'),
+  requireUser('HOST'),
   questionSetIdRule,
   validate,
   controller.deleteQuestionSet

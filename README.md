@@ -97,3 +97,7 @@ All endpoints require a host account. Send the host’s school ID in the `X-Demo
 | GET | `/question-sets/:questionSetId` | Host; gets one of their question sets |
 | PUT | `/question-sets/:questionSetId` | Host; updates one of their question sets |
 | DELETE | `/question-sets/:questionSetId` | Host; deletes one of their question sets |
+
+## Demo accounts
+
+Seeded demo accounts use the password `CampusDemo2026!`.

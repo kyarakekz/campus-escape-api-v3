@@ -11,7 +11,8 @@ router.use('/results', require('./results.routes'));
 
 // From here on, req.user says who is calling (or null).
 router.use(currentUser);
-
+router.use('/auth', require('./auth.routes'));
+router.use('/users', require('./user.routes'));
 router.use('/question-sets', require('./question-set.routes'));
 
-module.exports = router;
+module.exports = router; 
